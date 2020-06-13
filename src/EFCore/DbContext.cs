@@ -757,6 +757,14 @@ namespace Microsoft.EntityFrameworkCore
 
         private bool DisposeSync()
         {
+            if (_dbContextPool != null
+                && _dbContextPool.IsStandalone)
+            {
+                _dbContextPool.Return(this);
+
+                return false;
+            }
+
             if (_dbContextPool == null
                 && !_disposed)
             {

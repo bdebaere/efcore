@@ -64,7 +64,7 @@ namespace Microsoft.EntityFrameworkCore
         {
             if (UsePooling)
             {
-                var context = (PoolableDbContext)ContextPool.Rent();
+                var context = (PoolableDbContext)ContextPool.Rent(standalone: false);
                 context.SetPool(ContextPool);
                 return (TContext)(object)context;
             }
