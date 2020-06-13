@@ -37,17 +37,17 @@ namespace Microsoft.EntityFrameworkCore.Cosmos.ValueGeneration.Internal
             var builder = new StringBuilder();
             var entityType = entry.Metadata;
 
-            var pk = entityType.FindPrimaryKey();
+            var primaryKey = entityType.FindPrimaryKey();
             var discriminator = entityType.GetDiscriminatorValue();
             if (discriminator != null
-                && !pk.Properties.Contains(entityType.GetDiscriminatorProperty()))
+                && !primaryKey.Properties.Contains(entityType.GetDiscriminatorProperty()))
             {
                 AppendString(builder, discriminator);
                 builder.Append("|");
             }
 
-            var partitionKey = entityType.GetPartitionKeyPropertyName() ?? CosmosClientWrapper.DefaultPartitionKey;
-            foreach (var property in pk.Properties)
+            var partitionKey = entityType.GetPartitionKeyPropertyName();
+            foreach (var property in primaryKey.Properties)
             {
                 if (property.Name == partitionKey)
                 {
