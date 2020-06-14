@@ -5,7 +5,6 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Cosmos.Storage.Internal;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Microsoft.EntityFrameworkCore.Cosmos.ValueGeneration.Internal
@@ -77,18 +76,18 @@ namespace Microsoft.EntityFrameworkCore.Cosmos.ValueGeneration.Internal
             switch (propertyValue)
             {
                 case string stringValue:
-                    builder.Append(stringValue.Replace("|", "/|"));
+                    builder.Append(stringValue.Replace("|", "^|"));
                     return;
                 case IEnumerable enumerable:
                     foreach (var item in enumerable)
                     {
-                        builder.Append(item.ToString().Replace("|", "/|"));
+                        builder.Append(item.ToString().Replace("|", "^|"));
                         builder.Append("|");
                     }
 
                     return;
                 default:
-                    builder.Append(propertyValue == null ? "null" : propertyValue.ToString().Replace("|", "/|"));
+                    builder.Append(propertyValue == null ? "null" : propertyValue.ToString().Replace("|", "^|"));
                     return;
             }
         }
